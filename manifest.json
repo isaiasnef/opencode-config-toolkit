@@ -1,0 +1,42 @@
+{
+  "$schema": "./manifest.schema.json",
+  "name": "opencode-config-toolkit",
+  "version": "0.1.0",
+  "description": "Generic toolkit to design, validate, and distribute OpenCode configurations: AGENTS.md rules, custom agents, skills, and commands.",
+  "repository": "https://github.com/isaiasnef/opencode-config-toolkit",
+  "license": "MIT",
+  "artifacts": {
+    "rules": [
+      "rules/_base.md",
+      "rules/backend-service.md",
+      "rules/data-pipeline.md",
+      "rules/frontend-app.md"
+    ],
+    "agents": [
+      "agents/_template.md",
+      "agents/agent-designer.md",
+      "agents/skill-designer.md",
+      "agents/command-designer.md",
+      "agents/config-auditor.md"
+    ],
+    "skills": [
+      "skills/_template/SKILL.md",
+      "skills/design-agent/SKILL.md",
+      "skills/validate-config/SKILL.md",
+      "skills/organize-config/SKILL.md",
+      "skills/distribute-config/SKILL.md"
+    ],
+    "commands": [
+      "commands/_template.md",
+      "commands/init-config.md",
+      "commands/validate-config.md",
+      "commands/audit-config.md",
+      "commands/new-agent.md"
+    ]
+  },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "validate": "node scripts/validate.mjs",
+    "bootstrap": "node scripts/bootstrap.mjs"
+  }
+}

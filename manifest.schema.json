@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "./manifest.schema.json",
+  "title": "opencode-config-toolkit manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "version", "artifacts"],
+  "properties": {
+    "name": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string" },
+    "repository": { "type": "string" },
+    "license": { "type": "string" },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rules", "agents", "skills", "commands"],
+      "properties": {
+        "rules": { "type": "array", "items": { "type": "string" } },
+        "agents": { "type": "array", "items": { "type": "string" } },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "commands": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "scripts": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

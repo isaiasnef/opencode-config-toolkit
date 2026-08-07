@@ -1,0 +1,25 @@
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Env / secrets (local only, never versioned)
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Generated / local working dirs
+dist/
+build/
+.tmp/

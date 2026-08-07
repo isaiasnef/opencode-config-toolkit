@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "./docs/design-standards.md",
+    "./docs/quality-model.md",
+    "./docs/distribution.md"
+  ],
+  "permission": {
+    "edit": "allow",
+    "bash": {
+      "git *": "allow",
+      "node scripts/*": "allow",
+      "*": "ask"
+    }
+  }
+}
