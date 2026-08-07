@@ -38,10 +38,11 @@ function loadJson(p) {
 function copyDir(src, dst) {
   if (!existsSync(src)) return;
   for (const entry of readdirSync(src)) {
+    if (entry.startsWith("_template")) continue;
     const s = join(src, entry);
     const d = join(dst, entry);
     if (existsSync(d)) continue;
-    if (existsSync(s)) copyFileSync(s, d);
+    copyFileSync(s, d);
   }
 }
 
