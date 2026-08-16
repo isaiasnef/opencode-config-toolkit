@@ -1,0 +1,24 @@
+{
+  "skills": [
+    {
+      "name": "design-agent",
+      "version": "1",
+      "files": ["SKILL.md"]
+    },
+    {
+      "name": "distribute-config",
+      "version": "1",
+      "files": ["SKILL.md"]
+    },
+    {
+      "name": "organize-config",
+      "version": "1",
+      "files": ["SKILL.md"]
+    },
+    {
+      "name": "validate-config",
+      "version": "1",
+      "files": ["SKILL.md"]
+    }
+  ]
+}

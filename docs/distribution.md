@@ -44,8 +44,11 @@ URLs raw:
 }
 ```
 
-> Sirve una lista separada por coma/nueva línea (`skills-index.json`) si quieres exponer
-> un subconjunto curado por equipo.
+El índice que define qué skills se publican vive en `skills/index.json` (formato oficial
+del contrato remoto de OpenCode): `{ "skills": [{ "name", "version", "files" }] }`. Cada
+skill se sirve desde `skills/<name>/SKILL.md`, y se **bumpea `version`** al editarla para
+que los clientes refresquen su caché local. Si quieres exponer un subconjunto curado por
+equipo, sirve un índice distinto con la misma forma.
 
 ## 3. Agentes + comandos (instalar)
 

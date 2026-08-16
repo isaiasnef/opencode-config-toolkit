@@ -1,8 +1,0 @@
-{
-  "skills": [
-    "skills/design-agent/SKILL.md",
-    "skills/validate-config/SKILL.md",
-    "skills/organize-config/SKILL.md",
-    "skills/distribute-config/SKILL.md"
-  ]
-}
