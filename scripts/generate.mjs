@@ -21,9 +21,10 @@ function parseArgs(argv) {
     const i = argv.indexOf(k);
     return i >= 0 ? argv[i + 1] : undefined;
   };
+  const ALIASES = { backend: "backend-service", frontend: "frontend-app", data: "data-pipeline" };
   return {
     name: get("--name") || "my-service",
-    type: get("--type") || "backend",
+    type: ALIASES[get("--type")] ?? get("--type") ?? "backend-service",
     out: get("--out") || ".",
     with: get("--with") ? get("--with").split(",") : [],
     dryRun: argv.includes("--dry-run"),
