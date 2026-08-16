@@ -1,44 +1,44 @@
 # AGENTS.md
 
-Project blueprint for this repository. Learn it once, apply to all agents/commands/skills here.
+Blueprint de proyecto para este repositorio. Apréndelo una vez, aplícalo a todos los agentes/comandos/skills de aquí.
 
-## Identity
-- Repository: **opencode-config-toolkit** — a generic toolkit to design, validate, and distribute OpenCode configuration: `AGENTS.md` rules, custom agents, skills, and commands.
-- This config is **meta**: it governs how OpenCode configurations are authored, not a single product's business logic. Keep it project-agnostic; never hard-code a single service's names.
+## Identidad
+- Repositorio: **opencode-config-toolkit** — un toolkit genérico para diseñar, validar y distribuir configuración de OpenCode: reglas `AGENTS.md`, agentes personalizados, skills y comandos.
+- Esta config es **meta**: gobierna cómo se autoran las configuraciones de OpenCode, no la lógica de negocio de un producto. Mantén el proyecto agnóstico; nunca hardcodees nombres de un solo servicio.
 
-## Working model
-- Read `/AGENTS.md` (this file), `/docs/design-standards.md`, `/docs/quality-model.md`, and `/docs/distribution.md` before changing anything.
-- Treat `manifest.json` as the single source of truth for artifact inventory; scripts/navigation read it, do not hardcode paths.
-- Small, regular commits per milestone; push to `main` (`git@github.com:isaiasnef/opencode-config-toolkit.git`).
+## Modelo de trabajo
+- Lee `/AGENTS.md` (este archivo), `/docs/design-standards.md`, `/docs/quality-model.md` y `/docs/distribution.md` antes de cambiar nada.
+- Trata `manifest.json` como la única fuente de verdad del inventario de artefactos; los scripts/navegación lo leen, no hardcodees rutas.
+- Commits pequeños y regulares por hito; empuja a `main` (`git@github.com:isaiasnef/opencode-config-toolkit.git`).
 
 ## Must / Must Not
-- MUST use declarative, boring tech (Node `.mjs` scripts, JSON manifests, Markdown) — no framework churn.
-- MUST keep every user-facing artifact below ~500 lines; split skills into progressive tiers.
-- MUST give every agent/skill/command a `description` with an explicit **"Use when …"** trigger phrase.
-- MUST NOT invent domain knowledge the toolkit was never designed to hold — keep it generic.
-- MUST NOT store secrets, credentials, or personal keys in the repo; keep `.env` untracked.
+- DEBES usar tecnología aburrida y declarativa (scripts Node `.mjs`, manifiestos JSON, Markdown) — sin churn de frameworks.
+- DEBES mantener cada artefacto visible al usuario por debajo de ~500 líneas; divide las skills en niveles progresivos.
+- DEBES dar a cada agente/skill/comando una `description` con una frase disparadora explícita **"Use when …" / "Úsalo cuando …"**.
+- NO DEBES inventar conocimiento de dominio que el toolkit nunca fue diseñado para tener — manténlo genérico.
+- NO DEBES guardar secretos, credenciales ni llaves personales en el repo; mantén `.env` sin trackear.
 
-## Architecture
-- `rules/` — `AGENTS.md` blueprints per archetype (`_base`, `backend-service`, `data-pipeline`, `frontend-app`).
-- `agents/` — reusable custom OpenCode agents (agent-designer, skill-designer, command-designer, config-auditor).
-- `skills/` — progressively-disclosed reusable skills (design-agent, validate-config, organize-config, distribute-config).
+## Arquitectura
+- `rules/` — blueprints de `AGENTS.md` por arquetipo (`_base`, `backend-service`, `data-pipeline`, `frontend-app`).
+- `agents/` — agentes personalizados de OpenCode reutilizables (agent-designer, skill-designer, command-designer, config-auditor).
+- `skills/` — skills reutilizables con divulgación progresiva (design-agent, validate-config, organize-config, distribute-config).
 - `commands/` — slash commands (`init-config`, `validate-config`, `audit-config`, `new-agent`).
-- `scripts/` — standalone Node CLI runners (`generate.mjs`, `validate.mjs`, `bootstrap.mjs`).
-- `docs/` — authoring standards and quality model.
+- `scripts/` — CLIs Node independientes (`generate.mjs`, `validate.mjs`, `bootstrap.mjs`).
+- `docs/` — estándares de autoría y quality model.
 
-## Verify before finishing
+## Verifica antes de terminar
 ```bash
 node scripts/validate.mjs .
 node --check scripts/*.mjs
 ```
 
-## Phases
-- **H0** foundation (README, LICENSE, manifest, opencode) — done.
-- **H1** docs (design-standards, quality-model, distribution) — done.
-- **H2** agents — done.
-- **H3** skills — done.
-- **H4** commands — done.
-- **H5** scripts (generate, validate, bootstrap) — in progress.
-- **H6** functional manifest + remote distribution examples — pending.
+## Fases
+- **H0** cimientos (README, LICENSE, manifest, opencode) — hecho.
+- **H1** docs (design-standards, quality-model, distribution) — hecho.
+- **H2** agents — hecho.
+- **H3** skills — hecho.
+- **H4** commands — hecho.
+- **H5** scripts (generate, validate, bootstrap) — en proceso.
+- **H6** manifest funcional + ejemplos de distribución remota — pendiente.
 
-Out of scope for this conversation: validating external repos, network publishing, REST APIs — future phases only.
+Fuera del alcance de esta conversación: validar repos externos, publicación en red, APIs REST — solo fases futuras.

@@ -1,6 +1,6 @@
 {
   "type": "backend-service",
-  "description": "Backend service archetype: Java + Quarkus, API-first, EIP routes.",
+  "description": "Arquetipo de servicio backend: Java + Quarkus, API-first, rutas EIP.",
   "rulesFile": "rules/backend-service.md",
   "openCodeSchema": "https://opencode.ai/config.json",
   "permission": { "edit": "allow", "bash": { "git*": "allow", "*": "ask" } }

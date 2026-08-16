@@ -1,49 +1,51 @@
 ---
 name: distribute-config
-description: Use when exposing or installing an OpenCode configuration on other machines or teams (remote rules/skills, or installing agents/commands).
+description: Úsalo cuando expongas o instales una configuración de OpenCode en otras máquinas o equipos (reglas/skills remotas, o instalación de agentes/comandos).
 ---
 
-# Distributing an OpenCode Configuration
+# Distribuir una Configuración de OpenCode
 
-Make a config consumable by any machine or teammate. See `docs/distribution.md`.
+Haz que una config sea consumible por cualquier máquina o compañero de equipo.
+Ver `docs/distribution.md`.
 
-## When to Use
-- Sharing rules/skills across teams without copy-paste
-- Installing agents/commands on a new machine (`~/.config/opencode/`)
-- Vetting which repo and version to pin to
+## Cuándo usar
+- Compartir reglas/skills entre equipos sin copiar-pegar
+- Instalar agentes/comandos en una máquina nueva (`~/.config/opencode/`)
+- Decidir a qué repo y versión fijarse
 
-## Mechanisms
-| Artifact | How | Remote? |
-|----------|-----|---------|
-| Rules / AGENTS.md | `instructions` field (file or URL) | ✅ native |
-| Skills | `skills.urls` / `skills.paths` | ✅ native |
-| Agents | `~/.config/opencode/agents/*.md` | ❌ → install |
-| Commands | `~/.config/opencode/commands/*.md` | ❌ → install |
+## Mecanismos
+| Artefacto | Cómo | ¿Remoto? |
+|-----------|------|---------|
+| Reglas / AGENTS.md | campo `instructions` (archivo o URL) | ✅ nativo |
+| Skills | `skills.urls` / `skills.paths` | ✅ nativo |
+| Agentes | `~/.config/opencode/agents/*.md` | ❌ → instalar |
+| Comandos | `~/.config/opencode/commands/*.md` | ❌ → instalar |
 
-## Remote rules (no install)
+## Reglas remotas (sin instalar)
 ```json
 { "$schema": "https://opencode.ai/config.json",
   "instructions": ["https://raw.githubusercontent.com/<owner>/<repo>/main/rules/_base.md"] }
 ```
 
-## Remote skills (no install)
+## Skills remotas (sin instalar)
 ```json
 { "$schema": "https://opencode.ai/config.json",
   "skills": { "urls": ["https://raw.githubusercontent.com/<owner>/<repo>/main/skills"] } }
 ```
 
-## Install agents + commands
+## Instalar agentes + comandos
 ```bash
-node scripts/bootstrap.mjs            # all artifacts
-node scripts/bootstrap.mjs agents     # only agents
-node scripts/bootstrap.mjs --dry-run  # preview, no writes
+node scripts/bootstrap.mjs            # todos los artefactos
+node scripts/bootstrap.mjs agents     # solo agentes
+node scripts/bootstrap.mjs --dry-run  # vista previa, sin escribir
 ```
 
-## Common Mistakes
-- Pinning to `latest`/floating branch instead of a tag you control
-- Rendering agent/command re-install disruptive (no idempotency) → bootstrap is idempotent
-- Expecting agents/commands to load remotely (they are local-only) → use bootstrap
+## Errores comunes
+- Fijarse a `latest`/rama flotante en lugar de un tag que controles
+- Esperar que agentes/comandos se carguen de forma remota (solo son locales) → usa bootstrap
+- Instalar re-copias de un agente/comando sin permiso de escritura → el bootstrap es idempotente
 
-## Verification
-After bootstrap, `ls ~/.config/opencode/{agents,commands,skills}` shows the artifacts;
-remote rules/skills load in a fresh opencode.json; `validate.mjs` passes on the target.
+## Verificación
+Después del bootstrap, `ls ~/.config/opencode/{agents,commands,skills}` muestra los artefactos;
+las reglas/skills remotas cargan en un opencode.json nuevo; `node scripts/validate.mjs`
+pasa en el target.

@@ -1,35 +1,35 @@
 ---
 name: skill-name-here
-description: Use when <specific triggering conditions and symptoms>. Write the trigger here, not the workflow.
+description: Úsalo cuando <condiciones y síntomas de disparo específicos>. Escribe aquí el disparador, no el workflow.
 ---
 
 # Skill Name
 
 ## Overview
-<Core principle in 1-2 sentences. Assume the agent is smart; only add context it lacks.>
+<Principio central en 1-2 oraciones. Asume que el agente es inteligente; solo agrega el contexto que le falte.>
 
-## When to Use
-- <symptom 1>
-- <symptom 2>
-- <when NOT to use>
+## Cuándo usar
+- <síntoma 1>
+- <síntoma 2>
+- <cuándo NO usarla>
 
-## Quick Reference
-| Action | How |
+## Referencia rápida
+| Acción | Cómo |
 |--------|-----|
-| <step> | <command or pattern> |
+| <paso> | <comando o patrón> |
 
-## Implementation
-`Inline code for simple patterns, or: See reference/details.md for the full approach.`
+## Implementación
+`Código en línea para patrones simples, o: ver reference/details.md para el enfoque completo.`
 
-## Common Mistakes
-- <what goes wrong> → <fix>
+## Errores comunes
+- <lo que sale mal> → <corrección>
 
-## Gotchas
-- <failure patterns to bulletproof>
+## Trampas
+- <patrones de fallo para blindar>
 
-## Verification
-- <evidence that proves correct use>
+## Verificación
+- <evidencia que prueba el uso correcto>
 
 ---
 
-Template. Replace the placeholders. Rules: `docs/design-standards.md §2.3`.
+Template. Reemplaza los placeholders. Reglas: `docs/design-standards.md §2.3`.

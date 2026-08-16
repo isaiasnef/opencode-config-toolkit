@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Generate a standards-compliant OpenCode config into a destination project.
+ * Genera una config de OpenCode conforme al estándar en un proyecto destino.
  *
- * Usage:
+ * Uso:
  *   node scripts/generate.mjs --name <service> --type <backend|frontend|data-pipeline> \
  *     --out <dir> [--with agents,skills,commands] [--dry-run]
  *
- * Reads `scripts/presets/<type>.json` and `rules/<type>.md`; writes:
+ * Lee `scripts/presets/<type>.json` y `rules/<type>.md`; escribe:
  *   AGENTS.md, opencode.json, .opencode/{agents,commands,skills}/
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from "node:fs";
@@ -65,7 +65,7 @@ function main(opts) {
     }, null, 2) + "\n"],
   ];
 
-  console.log(`generating '${opts.name}' (${opts.type}) → ${join(opts.out, opts.name)}`);
+  console.log(`generando '${opts.name}' (${opts.type}) → ${join(opts.out, opts.name)}`);
   for (const step of plan) {
     if (step[0] === "dir") {
       if (opts.dryRun) { console.log(`  [dry] mkdir ${step[1]}`); continue; }
@@ -87,7 +87,7 @@ function main(opts) {
     }
   }
 
-  console.log("done. validate with: node scripts/validate.mjs " + out);
+  console.log("listo. valida con: node scripts/validate.mjs " + out);
 }
 
 main(parseArgs(process.argv.slice(2)));

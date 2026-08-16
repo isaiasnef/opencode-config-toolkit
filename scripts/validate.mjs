@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Validate an OpenCode configuration against the quality model (docs/quality-model.md).
+ * Valida una configuración de OpenCode contra el quality model (docs/quality-model.md).
  *
- * Usage:
+ * Uso:
  *   node scripts/validate.mjs [target] [--strict] [--format json]
  *
- * Exit codes:
- *   0  pass
- *   1  errors found / warnings in --strict
+ * Códigos de salida:
+ *   0  pasar
+ *   1  errores encontrados / warnings en --strict
  */
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -68,34 +68,34 @@ function report(severity, rule, message, file) {
 function checkSkill(file, text) {
   const { meta, body } = splitFrontmatter(text);
   if (!meta.name || !meta.description) {
-    report("error", "frontmatter", "missing required 'name' or 'description'", file);
+    report("error", "frontmatter", "faltan los campos requeridos 'name' o 'description'", file);
   }
   const desc = meta.description || "";
   if (desc.length > DESC_LIMIT) {
-    report("error", "description", `description is ${desc.length} chars (>${DESC_LIMIT})`, file);
+    report("error", "description", `la description tiene ${desc.length} caracteres (>${DESC_LIMIT})`, file);
   }
-  if (desc && !/Use when|Use this skill|Use proactively|Trigger when/i.test(desc)) {
-    report("warning", "description", "description lacks a 'Use when ...' trigger phrase", file);
+  if (desc && !/Use when|Use this skill|Use proactively|Trigger when|Úsalo cuando|Usa cuando|Activa cuando|Útil cuando/i.test(desc)) {
+    report("warning", "description", "la description no tiene una frase disparadora 'Use when ...'/'Úsalo cuando ...'", file);
   }
   const lines = text.split("\n").length;
   if (lines > BODY_LIMIT) {
-    report("warning", "file-size", `body is ${lines} lines (>${BODY_LIMIT}); split into references/`, file);
+    report("warning", "file-size", `el cuerpo tiene ${lines} líneas (>${BODY_LIMIT}); divide en references/`, file);
   }
-  if (!/Common Mistakes|Gotchas|failure patterns|Anti-pattern/i.test(text)) {
-    report("warning", "gotchas", "missing a 'Common Mistakes'/'Gotchas' section", file);
+  if (!/Common Mistakes|Gotchas|failure patterns|Anti-pattern|Errores comunes|Patrones de fallo|Banderas rojas/i.test(text)) {
+    report("warning", "gotchas", "falta una sección 'Common Mistakes'/'Gotchas' o de patrones de fallo", file);
   }
   if (lines >= 250 && !existsSync(join(dirname(file), "references"))) {
-    report("warning", "structure", "large SKILL.md has no references/ directory", file);
+    report("warning", "structure", "SKILL.md grande sin directorio references/", file);
   }
 }
 
 function checkAgentCommand(file, text, kind) {
   const { meta } = splitFrontmatter(text);
   if (!meta.description) {
-    report("error", "frontmatter", `${kind} missing required 'description'`, file);
+    report("error", "frontmatter", `${kind} sin la 'description' requerida`, file);
   }
   if (kind === "agent" && !meta.mode && !meta.model && !meta.permission) {
-    report("warning", "structure", "agent is missing mode/model/permission hints", file);
+    report("warning", "structure", "el agente no tiene pistas de mode/model/permission", file);
   }
 }
 
@@ -111,7 +111,7 @@ function main(opts) {
     const { meta } = splitFrontmatter(text);
     if (meta.name) {
       if (seen.has(meta.name)) {
-        report("error", "conflicts", `duplicate name '${meta.name}' (also in ${seen.get(meta.name)})`, file);
+        report("error", "conflicts", `nombre duplicado '${meta.name}' (también en ${seen.get(meta.name)})`, file);
       } else {
         seen.set(meta.name, file);
       }
@@ -126,12 +126,12 @@ function main(opts) {
     process.stdout.write(JSON.stringify({ target: opts.target, score, errors, warnings: warns, findings }) + "\n");
   } else {
     console.log(`\ntarget: ${opts.target}`);
-    console.log(`score: ${score}/100  ·  ✗ ${errors} errors  ·  ⚠ ${warns} warnings`);
+    console.log(`score: ${score}/100  ·  ✗ ${errors} errores  ·  ⚠ ${warns} warnings`);
     for (const f of findings) {
       console.log(`  [${f.severity}][${f.rule}] ${f.message}`);
       console.log(`    → ${f.file}`);
     }
-    if (!findings.length) console.log("  ✓ clean");
+    if (!findings.length) console.log("  ✓ limpio");
   }
 
   const ok = errors === 0 && !(opts.strict && warns > 0);

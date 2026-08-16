@@ -1,25 +1,26 @@
-# Distribution — apply OpenCode config to any machine/team
+# Distribution — aplica una config de OpenCode a cualquier máquina/equipo
 
-How the configuration artifacts in this repo are exposed so that **any team-mate or
-machine** can consume them without copy-paste or bespoke setup.
+Cómo se exponen los artefactos de configuración de este repo para que **cualquier
+compañero de equipo o máquina** pueda consumirlos sin copiar-pegar ni setups improvisados.
 
-## Strategy
+## Estrategia
 
-OpenCode natively supports **remote** loading for rules and skills, while agents and
-slash commands are discovered only from local paths. The toolkit combines both:
+OpenCode soporta de forma nativa la carga **remota** de reglas y skills, mientras que los
+agentes y comandos slash se descubren solo desde rutas locales. El toolkit combina ambos:
 
-| Artifact | Load mechanism | Remote? |
+| Artefacto | Mecanismo de carga | ¿Remoto? |
 |----------|----------------|---------|
-| Rules / `AGENTS.md` | `instructions` (file or URL) | ✅ native |
-| Skills | `skills.urls` / `skills.paths` | ✅ native (URL lists) |
-| Subagents | `~/.config/opencode/agents/*.md` | ❌ local → install |
-| Commands | `~/.config/opencode/commands/*.md` | ❌ local → install |
+| Reglas / `AGENTS.md` | `instructions` (archivo o URL) | ✅ nativo |
+| Skills | `skills.urls` / `skills.paths` | ✅ nativo (listas de URLs) |
+| Subagentes | `~/.config/opencode/agents/*.md` | ❌ local → instalar |
+| Comandos | `~/.config/opencode/commands/*.md` | ❌ local → instalar |
 
-`manifest.json` is the index of every artifact and the source of truth the scripts use.
+`manifest.json` es el índice de cada artefacto y la fuente de verdad que usan los scripts.
 
-## 1. Remote rules (no install)
+## 1. Reglas remotas (sin instalar)
 
-Point any project's `opencode.json` at this repo's rule files via raw URLs:
+Apunta el `opencode.json` de cualquier proyecto a los archivos de reglas de este repo vía
+URLs raw:
 
 ```json
 {
@@ -30,7 +31,7 @@ Point any project's `opencode.json` at this repo's rule files via raw URLs:
 }
 ```
 
-## 2. Remote skills (no install)
+## 2. Skills remotas (sin instalar)
 
 ```json
 {
@@ -43,37 +44,37 @@ Point any project's `opencode.json` at this repo's rule files via raw URLs:
 }
 ```
 
-> Serve a comma/newline-separated list (`skills-index.json`) if you want to expose a
-> curated subset per team.
+> Sirve una lista separada por coma/nueva línea (`skills-index.json`) si quieres exponer
+> un subconjunto curado por equipo.
 
-## 3. Agents + commands (install)
+## 3. Agentes + comandos (instalar)
 
-Agents and commands are discovered only from local directories, so install them into the
-per-user config. `scripts/bootstrap.mjs` does this:
+Los agentes y comandos se descubren solo desde directorios locales, así que se instalan en
+la config del usuario. Lo hace `scripts/bootstrap.mjs`:
 
 ```bash
-node scripts/bootstrap.mjs                # install ALL artifacts
-node scripts/bootstrap.mjs agents         # only agents
-node scripts/bootstrap.mjs commands       # only commands
-node scripts/bootstrap.mjs --dry-run      # preview, no writes
+node scripts/bootstrap.mjs                # instala TODOS los artefactos
+node scripts/bootstrap.mjs agents         # solo agentes
+node scripts/bootstrap.mjs commands       # solo comandos
+node scripts/bootstrap.mjs --dry-run      # vista previa, sin escribir
 ```
 
-It reads `manifest.json`, and copies each artifact into `~/.config/opencode/` respecting
-their destination (`agents/`, `commands/`, `skills/`).
+Lee `manifest.json` y copia cada artefacto a `~/.config/opencode/` respetando su destino
+(`agents/`, `commands/`, `skills/`).
 
-## 4. Using the toolkit in another project
+## 4. Usar el toolkit en otro proyecto
 
 ```bash
-# From the toolkit repo
+# Desde el repo del toolkit
 node scripts/generate.mjs --name cart-svc --type backend --out ../cart-svc
 
-# Or reference rules/skills remotely as shown above and only bootstrap agents/commands.
+# O referencia reglas/skills remotamente como se muestra arriba y solo haz bootstrap de agentes/comandos.
 ```
 
-## Conventions
+## Convenciones
 
-- **Everything in the repo.** Config artifacts live in the repo; nothing important
-  lives only in a chat or a doc.
-- **One source of truth** (`manifest.json`); `generate.mjs`/`validate.mjs`/`bootstrap.mjs`
-  read it rather than hardcode paths.
-- Version the repo; pin `instructions`/`skills.urls` to a tag/branch you control.
+- **Todo dentro del repo.** Los artefactos de config viven en el repo; nada importante
+  vive solo en un chat o en un doc.
+- **Una sola fuente de verdad** (`manifest.json`); `generate.mjs`/`validate.mjs`/`bootstrap.mjs`
+  la leen en vez de hardcodear rutas.
+- Versiona el repo; fija `instructions`/`skills.urls` a una etiqueta/rama que controles.

@@ -1,46 +1,47 @@
-# Design Standards — OpenCode Configuration Toolkit
+# Estándares de diseño — OpenCode Configuration Toolkit
 
-Conventions for authoring **clean, organized, and efficient** OpenCode configuration:
-`AGENTS.md`, custom agents, skills, and slash commands. Project-agnostic.
+Convenciones para autorar una configuración de OpenCode **limpia, organizada y eficiente**:
+`AGENTS.md`, agentes personalizados, skills y slash commands. Agnóstica de proyecto.
 
-Distilled from mature references: Anthropic's Agent Skills authoring guidance,
-`superpowers:writing-skills`, `addyosmani/agent-skills`, and `wshobson/agents`
-(a multi-harness marketplace with an OpenCode target).
+Destilada de referencias maduras: la guía de autoría de Agent Skills de Anthropic,
+`superpowers:writing-skills`, `addyosmani/agent-skills` y `wshobson/agents`
+(un marketplace multi-harness con destino a OpenCode).
 
 ---
 
-## 1. Principles (never violated)
+## 1. Principios (que nunca se violan)
 
-1. **The config file is a table of contents, not an encyclopedia.**
-   Keep `AGENTS.md` under ~150 lines. Detail lives in `docs/`, `references/`, or a
-   skill's `references/` — loaded on demand.
-2. **The repo is the system of record.** If it's not in the repo, the agent can't see
-   it. No Slack threads, no Notion, no local-only lore.
-3. **Enforce invariants, not implementation.** Frontmatter shape, file naming, and
-   trigger phrases are validated mechanically (`validate.mjs`). Style and tone within
-   those bounds are your call.
-4. **Boring tech.** Markdown + YAML frontmatter + small scripts. No DSLs, no template
-   engines, no harness-specific markup in source.
+1. **El archivo de configuración es un índice, no una enciclopedia.**
+   Mantén `AGENTS.md` por debajo de ~150 líneas. El detalle vive en `docs/`, `references/`
+   o el `references/` de una skill — se carga bajo demanda.
+2. **El repo es la fuente de verdad.** Si no está en el repo, el agente no puede verlo.
+   Nada de hilos de Slack, ni Notion, ni conocimiento solo local.
+3. **Impón invariantes, no implementación.** La forma del frontmatter, el nombrado y las
+   frases disparadoras se validan mecánicamente (`validate.mjs`). El estilo y el tono
+   dentro de esos límites son tu decisión.
+4. **Tecnología aburrida.** Markdown + frontmatter YAML + scripts pequeños. Sin DSL, sin
+   motores de plantillas, sin marcado específico de harness en el código fuente.
 
-## 2. Conventions per artifact
+## 2. Convenciones por artefacto
 
 ### 2.1 `AGENTS.md`
 
-- Concise core with sections: purpose, precedence, external references, stack,
-  rules (MUST/MUST-NOT), architecture, and verification commands.
-- **Lazy-load detail**: reference `@docs/<topic>.md` and instruct the agent to `Read`
-  them only when the task touches that area.
-- Declare **precedence** explicitly when nested AGENTS.md files exist (sub-project
-  rules win over root rules).
-- End with **MUST ASK triggers** — decisions not covered by the rules must be asked.
+- Núcleo conciso con secciones: propósito, precedencia, referencias externas, stack,
+  reglas (MUST/MUST-NOT), arquitectura y comandos de verificación.
+- **Carga perezosa del detalle**: referencia `@docs/<topic>.md` e instruye al agente a
+  `Read` solo cuando la tarea toca esa área.
+- Declara la **precedencia** explícitamente cuando existan AGENTS.md anidados (las reglas
+  del sub-proyecto ganan a las de la raíz).
+- Termina con **MUST ASK triggers** — las decisiones no cubiertas por las reglas deben
+  preguntarse.
 
-### 2.2 Custom agents (`.opencode/agents/<name>.md`)
+### 2.2 Agentes personalizados (`.opencode/agents/<name>.md`)
 
-File form (preferred over inline config):
+Forma del archivo (preferida sobre config en línea):
 
 ```markdown
 ---
-description: One sentence: who this agent is and when to delegate to it.
+description: Una frase: quién es este agente y cuándo delegarle.
 mode: subagent            # primary | subagent | all
 model: anthropic/claude-sonnet-5
 permission:
@@ -50,112 +51,118 @@ permission:
     "*": ask
 ---
 
-You are a <role>. ... (system prompt — the body is the prompt)
+Eres un <rol>. ... (prompt del sistema — el cuerpo es el prompt)
 ```
 
-- **Body is the prompt.** Never put `prompt:` in frontmatter.
-- One responsibility per agent. Name it for what it does.
-- **Least privilege**: deny by default, allow the minimum tool surface.
-- **Model tier** by task: `opus` for review/security/architecture; `sonnet` for
-  balanced complex work; `haiku` for fast deterministic tasks; `inherit` to defer.
-- Use **globally unique names** (`<scope>-<role>`) to avoid collisions.
+- **El cuerpo es el prompt.** Nunca pongas `prompt:` en el frontmatter.
+- Una responsabilidad por agente. Ponle nombre por lo que hace.
+- **Menor privilegio**: deniega por defecto, permite la mínima superficie de herramientas.
+- **Nivel de modelo** según tarea: `opus` para revisión/seguridad/arquitectura; `sonnet`
+  para trabajo complejo balanceado; `haiku` para tareas rápidas y deterministas; `inherit`
+  para diferir.
+- Usa **nombres únicos globales** (`<scopes>-role`) para evitar colisiones.
 
-### 2.3 Skills (`skills/<name>/SKILL.md`)
+### 2.3 Skills (`skills/<name>/SKILL`)
 
-Required frontmatter:
+Frontmatter requerido:
 
 ```yaml
 ---
-name: validating-skills            # kebab-case, lowercase, matches folder
-description: Use when <triggering conditions and symptoms>.  # 3rd person, ≤1024 chars
+name: validating-skills            # kebab-case, minúsculas, coincide con la carpeta
+description: Use when <condiciones y venenos>.  # 3.ª person, ≤1024 chars
 ---
 ```
 
-**Description rules (Skill Discovery Optimization):**
-- `description` = **when** to use it, **not** what it does.
-- Start with `Use when ...`. Third person. ≤1024 chars; aim ≤500.
-- Front-load concrete trigger keywords: error messages, symptoms, tool names.
-- **Never summarize the skill's workflow** — agents follow the description as a shortcut.
+**Reglas de `description` (Optimización de descubrimiento de skills):**
+- `description` = **cuándo** usarlo, **no** qué hace.
+- Empieza con `Use when ...` / `Úsalo cuando ...`. En 3.ª persona. ≤1024 chars; apunta a ≤500.
+- Pone al frente palabras clave de trigger concretas: mensajes de error, síntomas, nombres
+  de herramientas.
+- **Nunca resumas el workflow de la skill** — los agentes toman la descripción como atajo.
 
-**Naming:** verb-first / gerund. `creating-skills` not `skill-creation`.
+**Nombrar:** primero el verbo / gerundio. `creating-skills` no `skill-creation`.
 
-**Progressive disclosure (3 tiers):**
-1. **Frontmatter** — name + description (always loaded).
-2. **SKILL.md body** — overview, when to use, quick reference, common mistakes. ≤500 lines.
-3. **`references/` + `assets/`** — deep material, loaded on demand. Keep references
-   **one level deep** from SKILL.md.
+**Divulgación progresiva (3 niveles):**
+1. **Frontmatter** — nombre + descripción (siempre se carga).
+2. **Cuerpo de SKILL.md** — resumen, cuándo usarlo, referencia rápida, errores comunes.
+   ≤500 líneas.
+3. **`references/` + `assets/`** — material profundo, carga bajo demanda. Mantén las
+   referencias **a un solo nivel de profundidad** de SKILL.md.
 
-**SKILL.md canonical structure:**
+**Estructura canónica de SKILL.md:**
 
 ```markdown
 # Skill Name
 
-## Overview          # core principle in 1-2 sentences
-## When to Use       # symptoms + when NOT to use
-## Quick Reference   # table for scanning
-## Implementation    # inline code or link to references/
-## Common Mistakes   # what goes wrong + fixes
-## Gotchas           # failure patterns to bulletproof
+## Overview            # principio central en 1-2 oraciones (Visión general)
+## Cuándo usar         # síntomas + cuándo NO usar
+## Referencia rápida   # tabla para escanear
+## Implementación      # código en línea o enlace a references/
+## Errores comunes     # lo que sale mal + correcciones
+## Trampas              # patrones de fallo para blindar
 ```
 
-**Degrees of freedom:** match specificity to fragility — high freedom (guidance),
-medium (parameterized recipe), low (exact command, no modification).
+**Grados de libertad:** iguala la especificidad a la fragilidad — alta libertad (orientación),
+media (receta parametrizada), baja (comando exacto, sin modificación).
 
-### 2.4 Slash commands (`.opencode/commands/<name>.md`)
+### 2.4 Comandos slash (`.commands/<name>.md`)
 
 ```markdown
 ---
-description: One sentence describing what the command does.
+description: Una frase que describe lo que hace el comando.
 agent: build
 ---
 
-(command body = the prompt, with $ARGUMENTS / $1 / $2)
+(cuerpo del comando = el prompt, con $ARGUMENTS / $1 / $2)
 ```
 
-- `template` is the body; do **not** add a `template:` frontmatter key.
-- Use `$ARGUMENTS` for free text; `$1`, `$2` for positional args.
-- Keep names consistent with any related skill (avoid skill/command name collisions).
+- `template` es el cuerpo; **no** agregues una clave `template:` en el frontmatter.
+- Usa `$ARGUMENTS` para texto libre; `$1`, `$2` para argumentos posicionales.
+- Mantén los nombres consistentes con cualquier skill relacionada (evita colisiones de
+  nombres skill/comando).
 
-## 3. Match the form to the failure
+## 3. Iguala la forma al fallo
 
-Choose the guidance form based on the **baseline failure** you observed:
+Elige la forma de la guía según el **fallo base** observado:
 
-| Baseline failure | Right form |
+| Fallo base | Forma correcta |
 |------------------|-----------|
-| Violates a rule under pressure (knows better, does it anyway) | Prohibition + rationalization table + red flags |
-| Complies but output has the wrong shape | Positive recipe / contract (state what the output IS) |
-| Omits a required element | Structural: REQUIRED slot in a template |
-| Behavior depends on a condition | Conditional on an observable predicate |
+| Viola una regla bajo presión (lo sabe, aun así lo hace) | Prohibición + tabla de racionalización + señales de alerta |
+| Cumple pero la salida tiene la forma incorrecta | Receta positiva / contrato (define lo que SÍ es la salida) |
+| Omita un elemento requerido | Estructural: espacio REQUERIDO en una plantilla |
+| El comportamiento depende de una condición | Condicional sobre un predictor observable |
 
-**Rules for whichever form:**
-- **No nuance clauses** ("don't X unless it matters") — they reopen negotiation.
-- Exemption clauses don't scope; restructure so the rule can't reach the exempt part.
-- Bulletproof discipline skills with a **rationalization table** and **red flags** list.
+**Reglas para cualquier forma:**
+- **Sin cláusulas de matiz** ("no hagas X salvo que importe") — reabren negociación.
+- Las cláusulas de exención no acotan; reformula para que la regla no pueda llegar a la
+  parte exenta.
+- Blindea las skills de disciplina con una **tabla de racionalización** y una lista de
+  **banderas rojas**.
 
 ## 4. Anti-patterns
 
-- Narrative storytelling instead of reusable technique.
-- Multi-language example dilution (one excellent example beats five mediocre).
-- `@` force-loading references (burns context) — use `**REQUIRED:** <skill>` instead.
-- Windows-style paths; use forward slashes everywhere.
-- Too many options without a default; provide a default + escape hatch.
-- "Voodoo constants" — justify configuration values.
-- Utility scripts that punt to the agent instead of handling errors.
+- Narración tipo historia en lugar de técnica reutilizable.
+- Dilución con demasiados ejemplos en varios idiomas (un ejemplo excelente gana cinco mediocres).
+- Fuerza-load `@` de referencias (consume contexto) — usa `**REQUIRED:** <skill>`.
+- Rutas a la Windows; usa barras diagonales en todas partes.
+- Demasiadas opciones sin default; da un default + una puerta de entrada.
+- "Constantes vudú" — justifica los valores de configuración.
+- Scripts de utilidad que le tiran el trabajo al agente en vez de manejar errores.
 
-## 5. Terminology and hygiene
+## 5. Terminología e higiene
 
-- Consistent terminology within a skill (pick one term per concept).
-- No time-sensitive instructions; if a thing changes, put old behavior in an
-  "old patterns" section.
-- One excellent, concrete example per pattern.
+- Terminología consistente dentro de una skill (elige un término por concepto).
+- Sin instrucciones sensibles al tiempo; si algo cambia, pon el comportamiento viejo en una
+  sección "patrones antiguos".
+- Un ejemplo excelente y concreto por patrón.
 
-## 6. Authoring checklist (per artifact)
+## 6. Checklist de autoría (por artefacto)
 
-- [ ] Frontmatter shape matches the schema (`name`+`description` present)
-- [ ] Description = triggering conditions, "Use when ...", 3rd person, keywords
-- [ ] `SKILL.md` body < 500 lines; detail in `references/` (one level deep)
-- [ ] References > 100 lines have a table of contents
-- [ ] Guidance form matches the failure type (see §3)
-- [ ] No anti-patterns from §4
-- [ ] Workflows have clear steps + verification gate
-- [ ] ≥3 evaluations/checks written before finalizing (see quality-model.md)
+- [ ] La forma del frontmatter cuadra con el esquema (`name`+`description` presentes)
+- [ ] La `description` = condiciones de disparo, "Use when ..." / "Úsalo cuando ...", 3.ª persona, keywords
+- [ ] Cuerpo de `SKILL.md` < 500 líneas; el detalle en `references/` (un solo nivel)
+- [ ] Las referencias > 100 líneas tienen una tabla de contenido
+- [ ] La forma de la guía coincide con el tipo de fallo (ver §3)
+- [ ] Sin anti-patroles de §4
+- [ ] Los workflows tienen pasos claros + puerta de verificación
+- [ ] ≥3 evaluaciones/chequeos escritos antes de finalizar (ver quality-model.md)

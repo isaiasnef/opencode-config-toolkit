@@ -1,42 +1,42 @@
 ---
 name: design-agent
-description: Use when authoring or redesigning a custom OpenCode subagent (.opencode/agents/&lt;name&gt;.md). Design clean, least-privilege agents.
+description: Úsalo cuando autoras o rediseñas un subagente personalizado de OpenCode (.opencode/agents/&lt;name&gt;.md). Diseña agentes limpios y de menor privilegio.
 ---
 
-# Designing Agents
+# Diseñando Agentes
 
-Help create OpenCode subagents that are clean, organized, and efficient. See
-`docs/design-standards.md §2.2` for the authoritative rules.
+Ayuda a crear subagentes de OpenCode limpios, organizados y eficientes. Ver
+`docs/design-standards.md §2.2` para las reglas autoritarias.
 
-## When to Use
-- Starting a new `.opencode/agents/<name>.md`
-- Reviewing an existing agent for structure, permissions, or model fit
-- Delegating agent authoring to someone (or something) else
+## Cuándo usar
+- Empezar un nuevo `.opencode/agents/<name>.md`
+- Revisar un agente existente por estructura, permisos o adecuación de modelo
+- Delegar la autoría de agentes a alguien (o algo) más
 
-## Process
-1. **Clarify the single responsibility.** Ask: what is the one thing this agent does?
-2. **Choose the form**: `subagent` vs `primary` vs `all`.
-3. **Write `description`**: who + when. One sentence. No workflow summary.
-4. **Assign permissions** (least privilege): deny by default, allow the minimum.
-5. **Pick a model tier**: `opus` (review/security/arch), `sonnet` (complex),
-   `haiku` (fast deterministic), `inherit` (defer).
-6. **Write the body** = the system prompt: Responsibility / Do / Must-not / Verification.
-7. **Validate**: `node scripts/validate.mjs <file>`.
+## Proceso
+1. **Clarifica la responsabilidad única.** Pregunta: ¿cuál es la única cosa que hace este agente?
+2. **Elige la forma**: `subagent` vs `primary` vs `all`.
+3. **Escribe la `description`**: quién + cuándo. Una frase. Sin resumen del workflow.
+4. **Asigna permisos** (menor privilegio): deniega por defecto, permite lo mínimo.
+5. **Elige un nivel de modelo**: `opus` (revisión/seguridad/arquitectura), `sonnet` (complejo),
+   `haiku` (determinista rápido), `inherit` (diferir).
+6. **Escribe el cuerpo** = el prompt del sistema: Responsabilidad / Hacer / No-hacer / Verificación.
+7. **Valida**: `node scripts/validate.mjs <archivo>`.
 
-## Quick Reference
-| Decision | Guidance |
+## Referencia rápida
+| Decisión | Guía |
 |----------|----------|
-| file location | `.opencode/agents/<name>.md` |
-| frontmatter keys | `description`, `mode`, `model`, `permission` |
-| naming | `kebab-case`, globally unique: `<scope>-<role>` |
-| permissions | deny by default; allow minimum tools |
-| model | match tier to task difficulty & risk |
+| ubicación del archivo | `.opencode/agents/<name>.md` |
+| claves del frontmatter | `description`, `mode`, `model`, `permission` |
+| nombrado | `kebab-case`, único global: `<scope>-<role>` |
+| permisos | deniega por defecto; permite las herramientas mínimas |
+| modelo | iguala el nivel a la dificultad y el riesgo de la tarea |
 
-## Common Mistakes
-- Inline `prompt:` in frontmatter (the body is the prompt) → remove it.
-- One agent doing many jobs → split by Single Responsibility.
-- `bash: allow` broadly → scope to the required commands.
+## Errores comunes
+- `prompt:` en línea en el frontmatter (el cuerpo es el prompt) → quítalo.
+- Un agente haciendo muchos trabajos → divide por responsabilidad única.
+- `bash: allow` amplio → acota a los comandos requeridos.
 
-## Verification
-The file passes `validate.mjs`: valid frontmatter, unique name, least-privilege
-permissions, and a non-empty body.
+## Verificación
+El archivo pasa `validate.mjs`: frontmatter válido, nombre único, permisos de menor
+privilegio y cuerpo no vacío.

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Distribute this toolkit's artifacts into an OpenCode user-level config.
- * Agents and commands are discovered only from local paths, so they must be
- * installed; skills/rules can stay remote. This copies the packaged artifacts
- * into `~/.config/opencode/` so any project on this machine sees them.
+ * Distribuye los artefactos de este toolkit a la config de usuario de OpenCode.
+ * Los agentes y comandos se descubren solo desde rutas locales, así que deben
+ * instalarse; las skills/reglas pueden quedarse remotas. Copia los artefactos
+ * empaquetados a `~/.config/opencode/` para que cualquier proyecto de esta
+ * máquina los vea.
  *
- * Source of truth: `manifest.json` (the `artifacts` index).
+ * Fuente de verdad: `manifest.json` (el índice `artifacts`).
  *
- * Usage:
+ * Uso:
  *   node scripts/bootstrap.mjs [agents|commands|skills|all] [--dry-run]
  */
 import { readFileSync, copyFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
@@ -27,7 +28,7 @@ function manifest() {
   return JSON.parse(readFileSync(join(ROOT, "manifest.json"), "utf8"));
 }
 
-// Resolve the artifact paths for a kind from manifest.json.
+// Resuelve las rutas de artefactos de un tipo desde manifest.json.
 function artifacts(kind, manifestData) {
   return (manifestData.artifacts[kind] || []).filter((p) => !String(p).includes("_template"));
 }
@@ -40,11 +41,11 @@ function install(kind, paths, dryRun) {
   for (const rel of paths) {
     const src = join(ROOT, rel);
     if (!existsSync(src)) {
-      console.warn(`  ! missing ${rel}`);
+      console.warn(`  ! falta ${rel}`);
       continue;
     }
     if (kind === "skills") {
-      // manifest lists .../skills/<name>/SKILL.md → install the whole skill folder
+      // manifest lista .../skills/<nombre>/SKILL.md → instala toda la carpeta de la skill
       const skillDir = dirname(src);
       const name = basename(skillDir);
       const dst = join(DEST, "skills", name);
@@ -76,10 +77,10 @@ const opts = parseArgs(process.argv.slice(2));
 const mf = manifest();
 const kinds = opts.target === "all" ? ["agents", "commands", "skills"] : [opts.target];
 
-console.log(`bootstrapping: ${opts.target} → ${DEST}`);
+console.log(`instalando config: ${opts.target} → ${DEST}`);
 for (const kind of kinds) {
   const list = artifacts(kind, mf);
-  console.log(`  ${kind}: ${list.length} artifact(s)`);
+  console.log(`  ${kind}: ${list.length} artefacto(s)`);
   install(kind, list, opts.dryRun);
 }
-console.log("done. restart opencode so new agents/commands/skills are picked up.");
+console.log("listo. reinicia opencode para que los nuevos agentes/comandos/skills se detecten.");

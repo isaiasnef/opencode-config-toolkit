@@ -1,41 +1,40 @@
-# herders/deploy
-# AGENTS.md — Backend service
+# AGENTS.md — Servicio backend
 
-Blueprint for a standards-driven backend service. Copy/adapt this into any project
-that needs API-first, contract-driven development.
+Blueprint para un servicio backend guiado por estándares. Copia/adapta esto a cualquier proyecto
+que necesite desarrollo API-first y dirigido por contratos.
 
-## Identity
-- Type: **backend service** (HTTP API, integration adapter, worker).
-- Language/runtime: **Java 21+** LTS · Quarkus or Spring (choose per project) · Maven Wrapper per project.
-- Config: **YAML** only; externalize with `${ENV_VAR:default}` via MicroProfile/Spring Config. Never hardcode secrets in code or non-repo `.env` files.
+## Identidad
+- Tipo: **servicio backend** (API HTTP, adaptador de integración, worker).
+- Lenguaje/runtime: **Java 21+** LTS · Quarkus o Spring (elige por proyecto) · Maven Wrapper por proyecto.
+- Config: **YAML** solamente; externaliza con `${ENV_VAR:default}` vía MicroProfile/Spring Config. Nunca hardcodees secretos en código ni en archivos `.env` que no estén en el repo.
 
-## Working model
-- Implement **Enterprise Integration Patterns (EIP)** where applicable: routeName by operation, onException global at top of `configure()`.
-- Follow this repo's conventions; do not invent new stack.
+## Modelo de trabajo
+- Implementa **Enterprise Integration Patterns (EIP)** cuando aplique: routeName por operación, `onException` global al inicio de `configure()`.
+- Sigue las convenciones de este repo; no inventes un stack nuevo.
 
 ## Must / Must Not
-- Must validate payloads **only** via schema validators (json-validator, xml-schema, schematron).
-- Must style as Java `record` + Jakarta validation for requests/responses.
-- Must keep `onException(Throwable.class)` global near the top of `configure()`.
-- Must transform data only declaratively via `.xslt()`, `.jsonata()`, `.transform()` — not in `.process()`/`.bean()`.
-- Must use zero hardcoded config in Java — property holders in config + `${ENV_VAR:default}`.
-- Must write tests with Maven Wrapper, black-box HTTP and `@QuarkusTest`, then `verify`.
-- Must NOT aggregate dependencies "just in case"; scope every dependency.
-- Must NOT remove infra deps (health, metrics, tracing, SonarQube) without instruction.
+- DEBES validar los payloads **solo** con validadores de esquema (json-validator, xml-schema, schematron).
+- DEBES modelar como `record` de Java + validación Jakarta para requests/responses.
+- DEBES mantener `onException(Throwable.class)` global cerca del inicio de `configure()`.
+- DEBES transformar datos solo declarativamente vía `.xslt()`, `.jsonata()`, `.transform()` — no en `.process()`/`.bean()`.
+- DEBES usar cero config hardcodeada en Java — property holders en config + `${ENV_VAR:default}`.
+- DEBES escribir tests con Maven Wrapper, HTTP black-box y `@QuarkusTest`, y luego `verify`.
+- NO DEBES agregar dependencias "por si acaso"; acota cada dependencia.
+- NO DEBES quitar deps de infra (health, metrics, tracing, SonarQube) sin instrucción.
 
-## Architecture
-- Package `io.{project}.{artifactId}`:
-  - `route/` — entry points + orchestration + global onException.
-  - `dispatch/` — routing table SSOT (enums) when multiple operations.
-  - `template/` — reusable RouteTemplate when pattern repeats 2+ ops.
-  - `subroute/` — ad-hoc non-reusable fragments via `direct:`.
-  - `policy/`, `timer/`, `config/`, `shared/` — as needed (only when 2+ consumers).
+## Arquitectura
+- Paquete `io.{project}.{artifactId}`:
+  - `route/` — puntos de entrada + orquestación + onException global.
+  - `dispatch/` — tabla de enrutado SSOT (enums) cuando hay múltiples operaciones.
+  - `template/` — RouteTemplate reutilizable cuando el patrón se repite 2+ ops.
+  - `subroute/` — fragmentos ad-hoc no reutilizables vía `direct:`.
+  - `policy/`, `timer/`, `config/`, `shared/` — según se necesite (solo cuando hay 2+ consumidores).
 
-## Verify before finishing
+## Verifica antes de terminar
 ```bash
 ./mvnw test
 ./mvnw verify
 ```
 
-## Notes
-- Source of truth for operations = dispatch enums; add operation = add enum row + schema + transforms, never touch `route/`.
+## Notas
+- Fuente de verdad de las operaciones = enums de dispatch; sumar operación = agregar fila de enum + esquema + transforms, nunca tocar `route/`.

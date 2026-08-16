@@ -1,29 +1,29 @@
 ---
-description: Generate the base OpenCode configuration (AGENTS.md, .opencode/ layout, opencode.json) for a project.
+description: Genera la configuración base de OpenCode (AGENTS.md, layout .opencode/, opencode.json) para un proyecto.
 agent: build
 ---
 
-# Initialize an OpenCode Configuration
+# Inicializar una Configuración de OpenCode
 
-Scaffold a clean, standards-compliant OpenCode config into the current project.
+Scaffold de una config de OpenCode limpia y conforme al estándar en el proyecto actual.
 
-# Context
-- Current project: the target of the config
-- Reference standards: `docs/design-standards.md`
+# Contexto
+- Proyecto actual: el objetivo de la config
+- Estándares de referencia: `docs/design-standards.md`
 
-# Steps
-1. Detect the project type and primary stack (ask if unclear).
-2. Generate `AGENTS.md` from the closest `rules/<type>.md` blueprint:
-   - purpose, precedence, external references, stack, rules, architecture, verification
-3. Create the `.opencode/` layout:
+# Pasos
+1. Detecta el tipo de proyecto y el stack principal (pregunta si no está claro).
+2. Genera `AGENTS.md` desde el blueprint `rules/<type>.md` más cercano:
+   - propósito, precedencia, referencias externas, stack, reglas, arquitectura, verificación
+3. Crea el layout `.opencode/`:
    - `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/`
-4. Write a `opencode.json` with `$schema` and minimal `permission`.
-5. If the generator exists, prefer running `node scripts/generate.mjs --name <name> --type <type> --out .`
+4. Escribe un `opencode.json` con `$schema` y `permission` mínimo.
+5. Si existe el generator, prefiere correr `node scripts/generate.mjs --name <name> --type <type> --out .`
 
-# Outputs
+# Salidas
 - `AGENTS.md`
 - `opencode.json`
-- `.opencode/` directories (empty scaffolding)
+- directorios `.opencode/` (scaffolding vacío)
 
-# Definition of done
-- `node scripts/validate.mjs .` passes; AGENTS.md is < ~150 lines with lazy-load references.
+# Definición de terminación
+- `node scripts/validate.mjs .` pasa; AGENTS.md es de < ~150 líneas con referencias lazy-load.

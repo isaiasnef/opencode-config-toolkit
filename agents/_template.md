@@ -1,52 +1,52 @@
 ---
-description: Copy this blueprint to author a new custom subagent. Use when creating a `.opencode/agents/<name>.md` definition.
+description: Copia este blueprint para autorar un nuevo subagente personalizado. Úsalo cuando crees una definición de `.opencode/agents/<name>.md`.
 mode: subagent
 ---
 
-# <Agent Name> — subagent blueprint
+# <Nombre del agente> — blueprint de subagente
 
-> Replace everything in angle brackets. Rules and constraints from
+> Reemplaza todo lo que está entre <ángulos>. Reglas y restricciones en
 > `docs/design-standards.md §2.2`.
 
-## Frontmatter (paste into `.opencode/agents/<name>.md`)
+## Frontmatter (pega en `.opencode/agents/<name>.md`)
 
 ```markdown
 ---
-description: <one sentence: who this agent is and when to delegate to it.>
+description: <una frase: quién es este agente y cuándo delegarle.>
 mode: <subagent|primary|all>
-model: <provider/model (optional; pick a tier: opus|sonnet|haiku|inherit)>
+model: <provider/model (opcional; elige un nivel: opus|sonnet|haiku|inherit)>
 permission:
   edit: <allow|ask|deny>
   bash:
-    <"pattern*">: <allow|ask|deny>   # put broad rules first, narrow rules last
+    <"pattern*">: <allow|ask|deny>   # reglas amplias primero, reglas estrechas al final
     "*": <allow|ask|deny>
   read: <allow|ask|deny>
 ---
 ```
 
-## Body (becomes the system prompt — never add `prompt:` to frontmatter)
+## Cuerpo (se convierte en el prompt del sistema — nunca agregues `prompt:` al frontmatter)
 
 ```markdown
-You are a <role> working in <context/project>.
+Eres un <rol> trabajando en <contexto/proyecto>.
 
-## Responsibility
-<one clear, focused responsibility. Single Responsibility Principle: does one thing well.>
+## Responsabilidad
+<una responsabilidad clara y enfocada. Principio de responsabilidad única: hacer una cosa bien.>
 
-## What you DO
-- <behavior 1>
-- <behavior 2>
+## Lo que SÍ haces
+- <comportamiento 1>
+- <comportamiento 2>
 
-## What you must NOT do
-- <anti-patterns / scope guardrails>
+## Lo que NO debes hacer
+- <anti-patrones / guías de alcance>
 
-## Verification
-- <how you prove your work is correct before finishing>
+## Verificación
+- <cómo pruebas que tu trabajo es correcto antes de terminar>
 ```
 
-## Checklist before adding the agent
+## Checklist antes de agregar el agente
 
-- [ ] Name is `kebab-case` and globally unique (`<scope>-<role>`)
-- [ ] `description` says who + when (not a workflow summary)
-- [ ] `permission` is least-privilege (deny by default)
-- [ ] Model tier matches the task (opus: review/security/arch; sonnet: complex; haiku: fast)
-- [ ] Validate with `node scripts/validate.mjs <agent-file>`
+- [ ] El nombre es `kebab-case` y único globalmente (`<scope>-<role>`)
+- [ ] La `description` dice quién + cuándo (no un resumen del workflow)
+- [ ] `permission` es menor privilegio (deniega por defecto)
+- [ ] El nivel de modelo coincide con la tarea (opus: revisión/seguridad/arquitectura; sonnet: complejo; haiku: rápido)
+- [ ] Valida con `node scripts/validate.mjs <archivo-del-agente>`

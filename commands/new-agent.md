@@ -1,26 +1,26 @@
 ---
-description: Scaffold a new custom subagent file from the agents/_template blueprint.
+description: Genera el scaffolding de un nuevo archivo de subagente desde el blueprint agents/_template.
 agent: build
 model: anthropic/claude-sonnet-5
 ---
 
-# New Custom Subagent
+# Nuevo Subagente Personalizado
 
-Scaffold a `.opencode/agents/<name>.md` agent from the toolkit template.
+Scaffold de un agente `.opencode/agents/<name>.md` desde el template del toolkit.
 
 # Inputs
-- `$1` — agent name (`kebab-case`, e.g. `backend-reviewer`)
-- `$ARGUMENTS` — optional role/short description
+- `$1` — nombre del agente (`kebab-case`, p. ej. `backend-reviewer`)
+- `$ARGUMENTS` — rol o descripción corta opcional
 
-# Steps
-1. Use the blueprint `agents/_template.md` as the starting point.
-2. Fill frontmatter `description`, `mode` (`subagent`), and `model` tier.
-3. Fill `permission` with least privilege (deny by default).
-4. Write the body: Responsibility / Do / Must-not / Verification.
-5. Save to `.opencode/agents/<name>.md` (or the project's config dir).
+# Pasos
+1. Usa el blueprint `agents/_template.md` como punto de partida.
+2. Llena el frontmatter: `description`, `mode` (`subagent`) y el nivel de `model`.
+3. Llena `permission` con menor privilegio (deniega por defecto).
+4. Escribe el cuerpo: Responsabilidad / Hacer / No-hacer / Verificación.
+5. Guarda en `.opencode/agents/<name>.md` (o el dir de config del proyecto).
 
-# Outputs
-- `.opencode/agents/<name>.md` — ready to review.
+# Salidas
+- `.opencode/agents/<name>.md` — listo para revisar.
 
-# Definition of done
-- File passes `node scripts/validate.mjs .opencode/agents/<name>.md`; name is unique and `kebab-case`.
+# Definición de terminación
+- El archivo pasa `node scripts/validate.mjs .opencode/agents/<name>.md`; el nombre es único y `kebab-case`.

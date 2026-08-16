@@ -1,26 +1,26 @@
 # AGENTS.md — Frontend app
 
-Blueprint for a standards-driven frontend web app.
+Blueprint para una web frontend guiada por estándares.
 
-## Identity
-- Type: **frontend app** (React, Vue, Svelte, or server-rendered).
-- Tooling bake: chosen per project (Vite/Next), keep boring — stick to toolchain the team already uses.
+## Identidad
+- Tipo: **frontend app** (React, Vue, Svelte, o server-rendered).
+- Tooling bake: elegido por proyecto (Vite/Next), mantente aburrido — quédate con la toolchain que el equipo ya usa.
 
-## Working model
-- Colocate components; single source of truth for state; progressive enhancement first.
-- Accessibility && performance are part of definition of done.
+## Modelo de trabajo
+- Coloca los componentes juntos; una sola fuente de verdad para el estado; progressive enhancement primero.
+- Accesibilidad && rendimiento son parte de la definición de terminación.
 
 ## Must / Must-not
-- Must use typed APIs/contracts; validate before render.
-- Must keep components small and cohesive; extract hooks/composable when logic repeats 2+ times.
-- Must render declaratively, never mutate the model from templates.
-- Must NOT leave secrets in client bundle (env vars only for non-secret runtime config).
-- Must NOT aggregate new deps without explicit need.
+- DEBES usar APIs/contratos tipados; valida antes de renderizar.
+- DEBES mantener componentes pequeños y cohesivos; extrae hooks/composables cuando la lógica se repite 2+ veces.
+- DEBES renderizar declarativamente; nunca mutar el modelo desde los templates.
+- NO DEBES dejar secretos en el bundle del cliente (env vars solo para config de runtime no secreta).
+- NO DEBES agregar deps nuevas sin una necesidad explícita.
 
-## Verify before finishing
+## Verifica antes de terminar
 ```bash
 npm run lint && npm test && npm run build
 ```
 
-## Notes
-- SSOT for routes/components = manifest itself; update manifest when adding screens.
+## Notas
+- SSOT de rutas/componentes = el propio manifest; actualiza el manifest al agregar pantallas.

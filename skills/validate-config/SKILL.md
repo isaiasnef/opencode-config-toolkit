@@ -1,46 +1,46 @@
 ---
 name: validate-config
-description: Use when validating or auditing an OpenCode configuration (AGENTS.md, agents, skills, commands) for quality issues before shipping.
+description: Úsalo cuando valides o audites una configuración de OpenCode (AGENTS.md, agentes, skills, comandos) por problemas de calidad antes de publicar.
 ---
 
-# Validating OpenCode Configuration
+# Validando una Configuración de OpenCode
 
-Assess a config against the quality model in `docs/quality-model.md`.
+Evalúa una config contra el quality model en `docs/quality-model.md`.
 
-## When to Use
-- Before committing or shipping an OpenCode config change
-- When an agent, skill, or command "isn't working" or isn't being discovered
-- In review of someone else's config
+## Cuándo usar
+- Antes de confirmar (commit) o publicar un cambio de config de OpenCode
+- Cuando un agente, skill o comando "no funciona" o no se descubre
+- Al revisar la config de otra persona
 
-## What to check (8 rules)
-1. **frontmatter** — required `name` + `description` present and well-formed
-2. **description** — triggering conditions only ("Use when ..."), 3rd person, ≤1024
-3. **file-size** — `SKILL.md` body < 500 lines
-4. **structure** — `references/` used for depth; one level deep; ToC on long files
-5. **gotchas** — has a "Common Mistakes / Gotchas" section
-6. **allowed-tools** — tool restrictions suit the artifact kind
-7. **conflicts** — no duplicate names or overlapping triggers
-8. **portability** — kebab-case folders, lowercase tools, valid `permission` shape
+## Qué revisar (8 reglas)
+1. **frontmatter** — `name` + `description` requeridos, presentes y bien formados
+2. **description** — solo condiciones de disparo ("Use when ..."/"Úsalo cuando ..."), 3.ª persona, ≤1024
+3. **file-size** — cuerpo de `SKILL.md` < 500 líneas
+4. **structure** — `references/` para profundidad; un solo nivel; ToC en archivos largos
+5. **gotchas** — tiene una sección "Common Mistakes / Gotchas"
+6. **allowed-tools** — restricciones de herramientas acordes al tipo de artefacto
+7. **conflicts** — sin nombres duplicados ni triggers superpuestos
+8. **portability** — carpetas kebab-case, herramientas en minúsculas, forma válida de `permission`
 
 ## Workflow
-1. `node scripts/validate.mjs <target>` — mechanical layer
-2. Read for semantic quality (trigger clarity, guidance form, token efficiency)
-3. Report score 0–100 + findings with prescriptions
-4. Optionally `--fix` (adds backup) with `undo` available
+1. `node scripts/validate.mjs <target>` — capa mecánica
+2. Lee buscando calidad semántica (claridad del trigger, forma de la guía, eficiencia de tokens)
+3. Reporta score 0–100 + hallazgos con prescripciones
+4. Opcionalmente `--fix` (crea respaldo) con `undo` disponible
 
-## Quick Reference
-| Case | Command |
+## Referencia rápida
+| Caso | Comando |
 |------|---------|
-| Lint a project dir | `node scripts/validate.mjs /path/to/project` |
-| Auto-fix with backup | `node scripts/validate.mjs <target> --fix` |
-| Warnings as errors | `node scripts/validate.mjs <target> --strict` |
-| JSON for CI | `node scripts/validate.mjs <target> --format json` |
+| Lint de un directorio de proyecto | `node scripts/validate.mjs /ruta/al/proyecto` |
+| Auto-fix con respaldo | `node scripts/validate.mjs <target> --fix` |
+| Warnings como errores | `node scripts/validate.mjs <target> --strict` |
+| JSON para CI | `node scripts/validate.mjs <target> --format json` |
 
-## Common Mistakes
-- Treating the description as a summary of the workflow (agents shortcut on it)
-- Letting `SKILL.md` grow past 500 lines without splitting into `references/`
-- Name collisions between skills / agents / commands silently overwrite
+## Errores comunes
+- Tratar la description como un resumen del workflow (los agentes la usan como atajo)
+- Dejar que `SKILL.md` crezca más de 500 líneas sin dividir en `references/`
+- Colisión de nombres entre skills / agentes / comandos que se sobreescriben en silencio
 
-## Verification
-`validate.mjs` exits `0` (pass) with no findings, or your score threshold is met and
-every finding maps to a rule with a prescription.
+## Verificación
+`validate.mjs` sale `0` (pasa) sin hallazgos, o alcanza el umbral de score y cada
+hallazgo se mapea a una regla con una prescripción.

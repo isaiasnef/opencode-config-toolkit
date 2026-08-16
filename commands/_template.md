@@ -1,43 +1,43 @@
 ---
-description: Copy this blueprint to author a new OpenCode slash command. Use when creating a `.opencode/commands/<name>.md` definition.
+description: Copia este blueprint para autorar un nuevo slash command de OpenCode. Úsalo cuando crees una definición de `.opencode/commands/<name>.md`.
 agent: build
 ---
 
-# <Command Name> — command blueprint
+# <Nombre del comando> — blueprint de comando
 
-> Replace placeholders. Rules: `docs/design-standards.md §2.4`.
+> Reemplaza los placeholders. Reglas: `docs/design-standards.md §2.4`.
 
-## Frontmatter (paste into `.opencode/commands/<name>.md`)
+## Frontmatter (pega en `.opencode/commands/<name>.md`)
 
 ```markdown
 ---
-description: <one sentence describing what the command does.>
+description: <una frase que describa qué hace el comando.>
 agent: <build|plan|general|custom-agent>
-model: <provider/model (optional)>
+model: <provider/model (opcional)>
 ---
 ```
 
-## Body (this becomes the prompt/the template)
+## Cuerpo (se convierte en el prompt/el template)
 
 ```markdown
 # Task
-<what this command accomplishes>
+<qué logra este comando>
 
-# Steps
-1. <step 1>
-2. <step 2>
-3. <step 3>
+# Pasos
+1. <paso 1>
+2. <paso 2>
+3. <paso 3>
 
 # Inputs
-- $ARGUMENTS  <everything after the command name>
-- $1, $2      <positional arguments>
+- $ARGUMENTS  <todo lo que sigue al nombre del comando>
+- $1, $2      <argumentos posicionales>
 
-# Output / Definition of done
-<what counts as done>
+# Salida / Definición de terminación
+<qué cuenta como terminado>
 ```
 
 ## Checklist
-- [ ] `description` present (shown in the slash palette)
-- [ ] Body is non-empty and states inputs via `$ARGUMENTS`/`$1`
-- [ ] Name doesn't collide with a skill of the same intent
-- [ ] Validate with `node scripts/validate.mjs <command-file>`
+- [ ] `description` presente (se muestra en la paleta de slash)
+- [ ] Cuerpo no vacío y establece los inputs vía `$ARGUMENTS`/`$1`
+- [ ] El nombre no colisiona con una skill de la misma intención
+- [ ] Valida con `node scripts/validate.mjs <archivo-del-comando>`

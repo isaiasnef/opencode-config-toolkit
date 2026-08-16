@@ -1,27 +1,27 @@
 ---
-description: Deep audit of an OpenCode configuration using the config-auditor agent.
+description: Auditoría profunda de una configuración de OpenCode usando el agente config-auditor.
 agent: config-auditor
 ---
 
-# Audit an OpenCode Configuration
+# Auditar una Configuración de OpenCode
 
-Run a semantic audit (beyond the mechanical linter) over the config and get a
-structured quality report.
+Corre una auditoría semántica (más allá del linter mecánico) sobre la config y obtén un
+reporte de calidad estructurado.
 
 # Inputs
-- `$1` — target path (default `.`)
-- `$ARGUMENTS` — focus areas (e.g. `skills`, `agents`, `AGENTS.md`)
+- `$1` — ruta objetivo (default `.`)
+- `$ARGUMENTS` — áreas de enfoque (p. ej. `skills`, `agents`, `AGENTS.md`)
 
-# Steps
-1. As the `config-auditor`, load the target config.
-2. Run the mechanical layer: `node scripts/validate.mjs <target>`.
-3. Evaluate semantically: trigger quality, guidance form, progressive disclosure,
-   token efficiency.
-4. Produce a report: score 0–100, findings by rule + severity, prescriptions.
-5. Suggest ≥3 evaluations (scenarios + assertions) for new artifacts.
+# Pasos
+1. Como `config-auditor`, carga la config objetivo.
+2. Corre la capa mecánica: `node scripts/validate.mjs <target>`.
+3. Evalúa semánticamente: calidad del trigger, forma de la guía, divulgación
+   progresiva, eficiencia de tokens.
+4. Produce un reporte: score 0–100, hallazgos por regla + severidad, prescripciones.
+5. Sugiere ≥3 evaluaciones (escenarios + assertions) para artefactos nuevos.
 
-# Outputs
-- Structured audit report (score, findings, prescriptions, suggested evals).
+# Salidas
+- Reporte de auditoría estructurado (score, hallazgos, prescripciones, evals sugeridos).
 
-# Definition of done
-- Every finding maps to a rule or a concrete observation; no silent fixes.
+# Definición de terminación
+- Cada hallazgo mapea a una regla o a una observación concreta; sin correcciones silenciosas.

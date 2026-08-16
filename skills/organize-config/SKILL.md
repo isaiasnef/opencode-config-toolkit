@@ -1,46 +1,46 @@
 ---
 name: organize-config
-description: Use when structuring or cleaning an OpenCode configuration directory to keep it DRY, single-source, and progressive-disclosure friendly.
+description: Úsalo cuando estructura o limpies un directorio de configuración de OpenCode para mantenerlo DRY, de fuente única y amigable con la divulgación progresiva.
 ---
 
-# Organizing an OpenCode Configuration
+# Organizar una Configuración de OpenCode
 
-Keep a config **clean, DRY, and single-source** across AGENTS.md, agents, skills, and
-commands. See `docs/design-standards.md §1` for the principles.
+Mantén una config **limpia, DRY y de fuente única** entre AGENTS.md, agentes, skills y
+comandos. Ver `docs/design-standards.md §1` para los principios.
 
-## When to Use
-- Setting up a new project's `.opencode/` layout
-- Cleaning a config that has grown messy or duplicated
-- Reviewing layout before distributing it to a team
+## Cuándo usar
+- Montar el layout `.opencode/` de un proyecto nuevo
+- Limpiar una config que creció desordenada o duplicada
+- Revisar el layout antes de distribuirlo a un equipo
 
-## Principles
-1. **Config file = table of contents.** `AGENTS.md` < ~150 lines; detail → `docs/`/`references/`.
-2. **One source of truth.** An artifact is defined once; everything else references it.
-3. **Composable, not bundled.** Granular units you can mix; install only what's needed.
-4. **Progressive disclosure.** Metadata → core body → `references/`/`assets/` on demand.
+## Principios
+1. **Archivo de config = índice.** `AGENTS.md` < ~150 líneas; detalle → `docs/`/`references/`.
+2. **Una sola fuente de verdad.** Un artefacto se define una vez; todo lo demás lo referencia.
+3. **Componible, no empaquetado.** Unidades granulares que puedes mezclar; instala solo lo necesario.
+4. **Divulgación progresiva.** Metadata → cuerpo principal → `references/`/`assets/` bajo demanda.
 
-## Layout (target)
+## Layout (objetivo)
 ```
-AGENTS.md                      # concise rules + lazy-load references
-opencode.json                  # $schema + permissions + remote instructions
+AGENTS.md                      # reglas concisas + referencias lazy-load
+opencode.json                  # $schema + permisos + instrucciones remotas
 .opencode/
-├── agents/                    # one file per agent
-├── commands/                  # one file per slash command
-└── skills/<name>/SKILL.md     # folder per skill (+ references/ if needed)
-docs/                          # lazy-load detail
+├── agents/                    # un archivo por agente
+├── commands/                  # un archivo por slash command
+└── skills/<name>/SKILL.md     # una carpeta por skill (+ references/ si se necesita)
+docs/                          # detalle lazy-load
 ```
 
-## Refactor moves
-- **Extract**: move detail out of `AGENTS.md` into `docs/<topic>.md`, referenced with `@`.
-- **Split**: a `SKILL.md` > 500 lines → split into `references/` one level deep.
-- **Dedup**: overlapping skills/triggers → merge or cross-reference, never duplicate.
-- **Align**: skill names and their slash commands must not collide (rename one).
+## Movimientos de refactor
+- **Extrae**: saca el detalle de `AGENTS.md` a `docs/<topic>.md`, referenciado con `@`.
+- **Divide**: un `SKILL.md` > 500 líneas → divídelo en `references/` a un solo nivel.
+- **Dedup**: skills/triggers superpuestos → combina o cruza-referencia, nunca dupliques.
+- **Alinea**: los nombres de skills y sus slash commands no deben colisionar (renombra uno).
 
-## Common Mistakes
-- Duplicating the same rule in AGENTS.md and a skill
-- A monolithic skill/agent doing five things (breaks composability)
-- Forgetting to update `manifest.json` when adding/removing an artifact
+## Errores comunes
+- Duplicar la misma regla en AGENTS.md y en una skill
+- Una skill/agente monolítico que hace cinco cosas (rompe la composabilidad)
+- Olvidar actualizar `manifest.json` al agregar/quitar un artefacto
 
-## Verification
-`node scripts/validate.mjs <target>` passes; the structure matches the layout above;
-no artifact is defined in more than one place.
+## Verificación
+`node scripts/validate.mjs <target>` pasa; la estructura coincide con el layout de arriba;
+ningún artefacto está definido en más de un lugar.
